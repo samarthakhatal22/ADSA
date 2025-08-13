@@ -1,9 +1,8 @@
-//In this code i have use the concept of Binary Search Tree(BST) and Performed Diff Terversal Techniques
+import java.util.*;//This code consists of searching concept
 
-import java.util.Scanner;
-public class BST 
+public class Searching
 {
-        public static void main(String[] args) 
+    public static void main(String[] args) 
     {
         Create tree = new Create();
         Scanner sc = new Scanner(System.in);
@@ -24,10 +23,19 @@ public class BST
         tree.postorder();
         System.out.print("Enter the number to search : ");
         int s = sc.nextInt();
-        System.out.println( tree.search(s) + " the value " + s + " exists in the BST");        
+       
+        boolean ans = tree.search(s);
+
+        if(ans == true )
+        {
+            System.out.println(ans + " value " + s + " exist");
+        }
+        else
+        {
+            System.out.println(ans + " value " + s + " does not exist");
+        }        
     }
 }
-
  class Node 
  {
     int key;
@@ -38,7 +46,6 @@ public class BST
         left = right = null;
     }
 }
-
  class Create
  {
     Node root;
@@ -46,12 +53,10 @@ public class BST
     {
         root = null;    
     }
-
     void insert(int key)
     {
         root = insertRec(root,key);
     }
-
     Node insertRec(Node root , int key)
     {
         if(root == null)
@@ -75,7 +80,6 @@ public class BST
         inorderRec(root);
         System.out.println("\n");
     }
-
     void inorderRec(Node root)
     {
         if(root!=null)
@@ -86,30 +90,26 @@ public class BST
         }
     }
     //preorder
-
     void preorder()
     {
         preorderRec(root);
         System.out.println("\n");
-    }
+    }    
     void preorderRec(Node root)
     {
          if (root != null) 
-         {
+        {
             System.out.print(root.key + " ");
             preorderRec(root.left);
             preorderRec(root.right);
         }
     }
-
     //Postorder
-
     void postorder() 
     {
         postorderRec(root);
         System.out.println("\n");
     }
-
     void postorderRec(Node root) 
     {
         if (root != null) 
@@ -124,6 +124,7 @@ public class BST
     {
         return serchRec(root , s);
     }
+
     boolean serchRec(Node root , int s)
     {
         if (root == null)
@@ -137,9 +138,12 @@ public class BST
         if(root.key<s)
         {
             return serchRec(root.right, s);
-        }else
+        }
+        else
         {
             return serchRec(root.left, s);
         }
     }
-}
+} 
+    
+
