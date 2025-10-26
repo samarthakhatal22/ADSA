@@ -1,19 +1,19 @@
-// Java Code to check whether the given graph
-// contains Hamiltonian Cycle using backtracking
-class GfG {
-
-    // Check if it's valid to place vertex at current position
-    static boolean isSafe(int vertex, int[][] graph, 
-                          int[] path, int pos) {
-        
-        // The vertex must be adjacent to the previous vertex
+import java.util.*;
+public class Hamiltonion
+{
+    // Function to check if the vertex can be placed at current position
+    static boolean isSafe(int vertex, int[][] graph, int[] path, int pos)
+    {
+        // The vertex must be adjacent to the previous vertex in the path
         if (graph[path[pos - 1]][vertex] == 0) {
             return false;
         }
 
-        // The vertex must not already be in the path
-        for (int i = 0; i < pos; i++) {
-            if (path[i] == vertex) {
+        // The vertex must not already be included in the path
+        for (int i = 0; i < pos; i++) 
+            {
+            if (path[i] == vertex) 
+              {
                 return false;
             }
         }
@@ -21,28 +21,29 @@ class GfG {
         return true;
     }
 
-    // Recursive backtracking to construct Hamiltonian Cycle
-    static boolean hamCycleUtil(int[][] graph, int[] path, 
-                                int pos, int n) {
-        
-        // Base case: all vertices are in the path
-        if (pos == n) {
-            
-            // Check if there's an edge from 
-            // last to first vertex
+    // Recursive utility function to construct Hamiltonian cycle
+    static boolean hamCycleUtil(int[][] graph, int[] path, int pos, int n) 
+     {
+        // Base case: all vertices are included in the path
+        if (pos == n)  
+          {
+            // Check if there is an edge from the last vertex to the first
             return graph[path[pos - 1]][path[0]] == 1;
         }
 
-        // Try all possible vertices as next candidate
-        for (int v = 1; v < n; v++) {
-            if (isSafe(v, graph, path, pos)) {
+        // Try different vertices as the next candidate
+        for (int v = 1; v < n; v++) 
+         {
+            if (isSafe(v, graph, path, pos)) 
+                 {
                 path[pos] = v;
 
-                if (hamCycleUtil(graph, path, pos + 1, n)) {
+                if (hamCycleUtil(graph, path, pos + 1, n)) 
+                {
                     return true;
                 }
 
-                // Backtrack if v doesn't lead to a solution
+                // Backtrack
                 path[pos] = -1;
             }
         }
@@ -50,48 +51,54 @@ class GfG {
         return false;
     }
 
-    // Initialize path and invoke backtracking function
-    static int[] hamCycle(int[][] graph) {
+    // Function to initialize path and find the Hamiltonian cycle
+    static int[] hamCycle(int[][] graph) 
+        {
         int n = graph.length;
         int[] path = new int[n];
-        for (int i = 0; i < n; i++) {
-            path[i] = -1;
-        }
+        Arrays.fill(path, -1);
+        path[0] = 0; // Start from vertex 0
 
-        // Start path with vertex 0
-        path[0] = 0;
-
-        if (!hamCycleUtil(graph, path, 1, n)) {
-            return new int[]{-1};
+        if (!hamCycleUtil(graph, path, 1, n))
+          {
+            return new int[]{-1}; // No cycle found
         }
 
         return path;
     }
 
-    // Driver Code
-    public static void main(String[] args) {
+    // Main function (Driver Code)
+    public static void main(String[] args) 
+       {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the number of vertices: ");
+        int V = sc.nextInt();
 
-        
-        int[][] graph = {
-            {0, 1, 0, 1, 0}, 
-            {1, 0, 1, 1, 1}, 
-            {0, 1, 0, 0, 1}, 
-            {1, 1, 0, 0, 1}, 
-            {0, 1, 1, 1, 0}
-        };
+        int[][] graph = new int[V][V];
+        System.out.println("\nEnter the adjacency matrix (use 0 for no edge, 1 for edge):");
+        for (int i = 0; i < V; i++) 
+          {
+            for (int j = 0; j < V; j++)
+            {
+                graph[i][j] = sc.nextInt();
+            }
+        }
 
         int[] path = hamCycle(graph);
-
-        if (path[0] == -1) {
-            System.out.print("Solution does not Exist");
-        } else {
+        System.out.println("\nResult:");
+        if (path[0] == -1)
+           {
+            System.out.println("No Hamiltonian Cycle exists for this graph.");
+        }
+ else
+       {
+            System.out.println(" Hamiltonian Cycle found: ");
             for (int i = 0; i < path.length; i++) {
                 System.out.print(path[i] + " ");
             }
-
-            // Print the first vertex again 
-            // to complete the cycle
-            System.out.print(path[0]);
+            System.out.println(path[0]); // to complete the cycle
         }
+
+        sc.close();
     }
 }
